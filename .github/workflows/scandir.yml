@@ -1,0 +1,63 @@
+name: 'scandir'
+
+on:
+  push:
+    branches:
+      - "master"
+  pull_request:
+    branches:
+      - "master"
+
+permissions: {}
+
+jobs:
+  scandir:
+    name: scandir
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4.1.0
+
+    - name: Run ShellCheck
+      uses: ./
+      id: one
+      with:
+        scandir: testfiles/scandir
+
+    - name: Verify check
+      run: |
+        expect="testfiles/scandir/run[[:space:]]me.bash"
+        notexpect="testfiles/test.bash"
+
+        if [[ ! "${{ steps.one.outputs.files }}" =~ $expect ]];then
+          echo "::error:: Expected file $expect not found in ${{ steps.one.outputs.files }}"
+          exit 1
+        elif [[ "${{ steps.one.outputs.files }}" =~ $notexpect ]];then
+          echo "::error:: Expected file $notexpect found in ${{ steps.one.outputs.files }}"
+          exit 1
+        fi
+
+    - name: Run ShellCheck
+      uses: ./
+      id: two
+      with:
+        scandir: './testfiles/scandir'
+        ignore_paths: ignore
+
+    - name: Verify check
+      run: |
+        expect="testfiles/scandir/test.bash"
+        notexpect="testfiles/test.bash"
+
+        if [[ ! "${{ steps.two.outputs.files }}" =~ $expect ]];then
+          echo "::error:: Expected file $expect not found in ${{ steps.two.outputs.files }}"
+          exit 1
+        elif [[ "${{ steps.two.outputs.files }}" =~ $notexpect ]];then
+          echo "::error:: Expected file $notexpect found in ${{ steps.two.outputs.files }}"
+          exit 1
+        fi
