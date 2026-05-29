@@ -10,7 +10,7 @@ _GitHub action for [ShellCheck](https://www.shellcheck.net/)._
 on:
   push:
     branches:
-      - master
+      - main
 
 name: "Trigger: Push action"
 permissions: {}
@@ -20,9 +20,9 @@ jobs:
     name: Shellcheck
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Run ShellCheck
-        uses: step-security/action-shellcheck@master
+        uses: step-security/action-shellcheck@v2
 ```
 
 ## ShellCheck options
@@ -39,7 +39,7 @@ example:
 ```yaml
     ...
     - name: Run ShellCheck
-      uses: step-security/action-shellcheck@master
+      uses: step-security/action-shellcheck@v2
       env:
         SHELLCHECK_OPTS: -e SC2059 -e SC2034 -e SC1090
 ```
@@ -63,7 +63,7 @@ example:
 ```yaml
     ...
     - name: Run ShellCheck
-      uses: step-security/action-shellcheck@master
+      uses: step-security/action-shellcheck@v2
       with:
         ignore_paths: >-
           ignoreme
@@ -80,7 +80,7 @@ example:
 ```yaml
     ...
     - name: Run ShellCheck
-      uses: step-security/action-shellcheck@master
+      uses: step-security/action-shellcheck@v2
       with:
         ignore_paths: ./sample/directory/with/files/ignorable.sh **/ignoreme/test.sh
 ```
@@ -96,7 +96,7 @@ example:
 ```yaml
     ...
     - name: Run ShellCheck
-      uses: step-security/action-shellcheck@master
+      uses: step-security/action-shellcheck@v2
       with:
         severity: error
 ```
@@ -109,7 +109,7 @@ all files at once:
 ```yaml
     ...
     - name: Run ShellCheck
-      uses: step-security/action-shellcheck@master
+      uses: step-security/action-shellcheck@v2
       with:
         check_together: 'yes'
 ```
@@ -125,7 +125,7 @@ one of them, you can use the following configuration:
 ```yaml
    ...
    - name: Run ShellCheck
-     uses: step-security/action-shellcheck@master
+     uses: step-security/action-shellcheck@v2
      with:
        scandir: './scripts'
 ```
@@ -137,7 +137,7 @@ If you need to scan for unusual files, you can use the `additional_files` key.
 ```yaml
    ...
    - name: Run ShellCheck
-     uses: step-security/action-shellcheck@master
+     uses: step-security/action-shellcheck@v2
      with:
        additional_files: 'run finish'
 ```
@@ -152,7 +152,7 @@ Shellcheck can print output in these formats: `checkstyle`, `diff`, `gcc`, `json
 ```yaml
    ...
    - name: Run ShellCheck
-     uses: step-security/action-shellcheck@master
+     uses: step-security/action-shellcheck@v2
      with:
        format: tty
 ```
@@ -164,7 +164,7 @@ If running the latest stable version of Shellcheck is not to your liking, you ca
 ```yaml
    ...
    - name: Run ShellCheck
-     uses: step-security/action-shellcheck@master
+     uses: step-security/action-shellcheck@v2
      with:
        version: v0.9.0
 ```
